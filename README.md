@@ -100,6 +100,14 @@ int main() {
 
 ### ⚙️ 2.3. Compilação e execução
 
+Executar seu conteiner docker com fedora.
+Sugestão de execução:
+- Windows PowerSell `docker run -it --name escalonamento -v "${PWD}:/app" fedora-sistemas-operacionais fish`
+- Windows cmd `docker run -it --name escalonamento -v "%cd%:/app" fedora-sistemas-operacionais fish`
+- Linux terminal `docker run -it --name escalonamento -v "$(pwd):/app" fedora-sistemas-operacionais fish`
+
+no terminal do conteiner, compilar e executar conforme o terminal abaixo.
+
 ```bash
 gcc threads_cpu_io.c -o threads_cpu_io -lpthread -lm
 ./threads_cpu_io
@@ -107,17 +115,34 @@ gcc threads_cpu_io.c -o threads_cpu_io -lpthread -lm
 
 ### 🔍 2.4. Análise de desempenho
 
+
 #### 2.4.1. Monitorar uso de CPU
 
-Em outro terminal, executar um 2o shell do conteiner `docker exec -it fedora-tutorial /bin/fish ` e no novo conteiner shell linux executar comando abaixo.
+Abrir um novo terminal e segue a sugestão para abrir um novo terminal no conteiner em execução:
+- Windows PowerSell `docker exec -it escalonamento fish`
+- Windows cmd `docker docker exec -it escalonamento fish`
+- Linux terminal `docker exec -it escalonamento fish`
 
+Lembrar de não fechar nenhum dos 2 terminais.
+Colocar as janelas lado a lado para observar o comportamento.
 
+No terminal de monitoramento executar o comando `htop`.
+
+O deepseek colocou 2 outros comandos como sugestão de uso, segue abaixo os comandos.
+
+Comando **top**
 ```bash
 top -H -p $(pgrep threads_cpu_io)
 ```
 
 - `-H`: Mostra threads
 - Observe as threads CPU-bound consumindo mais recursos
+
+Comando **watch** e **ps**
+```bash
+watch -n 1 "ps -eLf | grep threads_processos"
+```
+- `eLf`: Mostra processos e threads.
 
 #### 2.4.2. Tempos de execução
 
@@ -149,7 +174,7 @@ time ./threads_cpu_io
    ```
 
 6. **Relatório** deve incluir:
-   - Prints das saídas
+   - Prints das saídas (execução e monitoramento)
    - Diferença observada entre threads CPU e I/O
    - Resultados do `perf stat`
 
