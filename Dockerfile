@@ -7,6 +7,7 @@ RUN dnf -y update && \
     dnf -y install fish && \
     dnf -y install gcc && \
     dnf -y install javac && \
+    dnf -y install procps && \
     dnf clean all
 
 # Cria um diretório para a aplicação
